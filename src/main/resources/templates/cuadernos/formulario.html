@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuaderno</title>
+</head>
+<body>
+    <h1>Cuaderno</h1>
+
+	<!-- th:action indica a qué ruta enviar el formulario al pulsar Guardar; 
+		th:object conecta este formulario con el objeto "cuaderno" que viene del controlador -->
+    <form th:action="@{/cuadernos/guardar}" th:object="${cuaderno}" method="post">
+		<!-- Este campo está oculto para que el usuario no lo toque, pero guarda el id: 
+			si ya existía, al guardar se actualiza ese mismo cuaderno y no se crea uno repetido -->
+        <input type="hidden" th:field="*{id}">
+
+        <p>
+			<!-- *{titulo} es un atajo dentro de th:object para referirse a cuaderno.titulo; 
+				th:field conecta la caja de texto con ese atributo para leerlo y enviarlo -->
+            Título: <input type="text" th:field="*{titulo}">
+        </p>
+        <p>
+            Materia: <input type="text" th:field="*{materia}">
+        </p>
+
+        <button type="submit">Guardar</button>
+		<!-- Enlace normal de Thymeleaf para volver al listado sin guardar nada -->
+        <a th:href="@{/cuadernos}">Volver</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,19 @@
+// Explica las consecuencias antes de confirmar y ejecuta el borrado solo al enviar el formulario por POST
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar borrado de cuaderno</title>
+</head>
+<body>
+    <h1>Confirmar borrado de cuaderno</h1>
+
+    <p>Vas a eliminar el cuaderno <strong th:text="${cuaderno.titulo}"></strong>.</p>
+    <p>Consecuencia: al confirmar, se eliminará este cuaderno y también todas las notas asociadas a él.</p>
+
+    <form th:action="@{/cuadernos/eliminar/{id}(id=${cuaderno.id})}" method="post">
+        <button type="submit">Confirmar borrado</button>
+        <a th:href="@{/cuadernos}">Cancelar</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- Declaramos el espacio de nombres de Thymeleaf para usar atributos th:* -->
+<!-- xmlns:th activa las etiquetas especiales de Thymeleaf (las que empiezan por th:) 
+	para poder pintar datos de Java en el HTML -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuadernos</title>
+</head>
+<body>
+    <h1>Cuadernos</h1>
+	<!-- @{...} sirve para escribir enlaces internos de la web de forma segura; aquí 
+		lleva al formulario de crear un cuaderno nuevo -->
+    <a th:href="@{/cuadernos/nuevo}">Nuevo cuaderno</a>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Materia</th>
+            <th>Acción</th>
+        </tr>
+		<!-- th:each funciona como un bucle "for": repite esta fila <tr> por cada 
+			cuaderno que haya en la lista "cuadernos" que mandó el controlador -->
+        <tr th:each="c : ${cuadernos}">
+			<!-- th:text pone dentro de la celda el valor de ese campo 
+				del cuaderno actual "c" (reemplaza lo que haya dentro de la etiqueta) -->
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.titulo}"></td>
+            <td th:text="${c.materia}"></td>
+		    <!-- Aquí montamos la URL /cuadernos/editar/1 (o el id que toque) poniendo 
+				el id del cuaderno "c" dentro de {id} -->
+            <td><a th:href="@{/cuadernos/editar/{id}(id=${c.id})}">Editar</a></td>
+			<!--Opción de eliminar nota-->
+			<td><a th:href="@{/cuadernos/eliminar/{id}(id=${c.id})}">Eliminar</a></td>
+        </tr>
+    </table>
+</body>
+</html>

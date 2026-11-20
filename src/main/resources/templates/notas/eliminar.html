@@ -1,0 +1,19 @@
+// Explica que solo se borrará esta nota y no el cuaderno ni otras notas
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar borrado de nota</title>
+</head>
+<body>
+    <h1>Confirmar borrado de nota</h1>
+
+    <p>Vas a eliminar la nota <strong th:text="${nota.titulo}"></strong>.</p>
+    <p>Consecuencia: solo se eliminará esta nota. No se borrará el cuaderno al que pertenece ni el resto de notas.</p>
+
+    <form th:action="@{/notas/eliminar/{id}(id=${nota.id})}" method="post">
+        <button type="submit">Confirmar borrado</button>
+        <a th:href="@{/notas}">Cancelar</a>
+    </form>
+</body>
+</html>

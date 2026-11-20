@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nota</title>
+</head>
+<body>
+    <h1>Nota</h1>
+
+	<!-- Si no hay cuadernos disponibles (o el controlador manda un mensaje de error), informamos y damos enlace 
+		para crear uno primero -->
+	<div th:if="${error}">
+	    <p th:text="${error}"></p>
+	    <a th:href="@{/cuadernos/nuevo}">Crear un cuaderno</a>
+	</div>
+
+    <!-- th:action indica a qué URL se envían los datos al pulsar Guardar; th:object conecta el formulario con el objeto "nota" -->
+    <form th:action="@{/notas/guardar}" th:object="${nota}" method="post">
+        <!-- Campo oculto con el id: si estamos editando, conserva el id para actualizar la misma fila y no crear una nota duplicada -->
+        <input type="hidden" th:field="*{id}">
+		
+		<!-- Campo oculto con la fecha de creación para no perderla al editar una nota existente -->
+		<input type="hidden" th:field="*{fechaCreacion}">
+
+        <p>
+            <!-- *{titulo} es un atajo de nota.titulo dentro de th:object; th:field conecta la caja con ese campo -->
+            Título: <input type="text" th:field="*{titulo}">
+        </p>
+  
+        <p>
+            Contenido: <textarea th:field="*{contenido}"></textarea>
+        </p>
+
+        <p>
+            Cuaderno:
+            <!-- th:field="*{cuaderno}" enlaza el desplegable con el atributo cuaderno de la nota: al editar aparece seleccionado el actual -->
+            <select th:field="*{cuaderno}">
+                <!-- th:each rellena las opciones desde la lista "cuadernos" de la BD (no las escribimos a mano en HTML) -->
+                <!-- th:value envía el id del cuaderno seleccionado; th:text muestra su título (y materia) al usuario -->
+                <option th:each="c : ${cuadernos}"
+                        th:value="${c.id}"
+                        th:text="${c.titulo + ' (' + c.materia + ')'}">
+                </option>
+            </select>
+        </p>
+
+        <button type="submit">Guardar</button>
+        <!-- Enlace para volver al listado de notas -->
+        <a th:href="@{/notas}">Volver</a>
+    </form>
+</body>
+</html>

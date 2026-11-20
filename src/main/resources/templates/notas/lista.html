@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- xmlns:th activa las etiquetas de Thymeleaf (las que empiezan por th:) para pintar datos de Java -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas</title>
+</head>
+<body>
+    <h1>Notas</h1>
+
+    <!-- @{...} construye bien la ruta interna dentro de la aplicación -->
+    <a th:href="@{/notas/nuevo}">Nueva nota</a>
+    <a th:href="@{/cuadernos}">Ver cuadernos</a>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+			<th>Contenido</th>
+			<th>Fecha de creación</th>
+            <th>Cuaderno</th>
+            <th>Acción</th>
+        </tr>
+        <!-- th:each recorre la lista "notas" enviada por el controlador y crea una fila <tr> por cada nota "n" -->
+        <tr th:each="n : ${notas}">
+            <!-- th:text pone el valor del atributo dentro de la celda -->
+            <td th:text="${n.id}"></td>
+            <td th:text="${n.titulo}"></td>
+			<!-- Mostramos el texto/contenido de la nota -->
+			<td th:text="${n.contenido}"></td>
+			<!-- Mostramos la fecha de creación guardada en la entidad Nota -->
+			<td th:text="${n.fechaCreacion}"></td>
+			<!-- Mostramos el título del cuaderno al que pertenece la nota -->
+			<td th:text="${n.cuaderno.titulo}"></td>
+            <!-- Ponemos el id de la nota en la URL /notas/editar/1 para abrir su formulario de edición -->
+            <td><a th:href="@{/notas/editar/{id}(id=${n.id})}">Editar</a></td>
+			<!--Opción de eliminar nota-->
+			<td><a th:ref="@{/notas/eliminar/{id}(id=${n.id})}">Eliminar</a></td>
+        </tr>
+    </table>
+</body>
+</html>
